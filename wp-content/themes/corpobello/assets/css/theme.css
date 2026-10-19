@@ -204,7 +204,7 @@ img { height: auto; }
 /* ---------- contact ---------- */
 .cb-contact h2 { font-size: clamp(2.75rem, 6vw, 4.5rem); margin: 0; }
 .cb-contact .cb-phone .wp-block-button__link { min-width: 260px; justify-content: center; }
-.cb-map { margin-top: 2.5rem !important; border-radius: var(--cb-radius); overflow: hidden; background: #3d332e; aspect-ratio: 16 / 6; min-height: 280px; max-width: 1240px; }
+.cb-map { margin-top: 2.5rem !important; border-radius: var(--cb-radius); overflow: hidden; background: #3d332e; aspect-ratio: 16 / 6; min-height: 280px; width: 100%; max-width: 1240px; box-sizing: border-box; }
 .cb-map iframe { width: 100%; height: 100%; border: 0; display: block; filter: grayscale(.35) contrast(1.05); }
 .cb-address { margin-top: 2rem !important; }
 
@@ -246,7 +246,8 @@ img { height: auto; }
 	.cb-photo { min-height: 260px; }
 	.cb-fit--rev { flex-direction: column-reverse; }
 	.cb-contact .wp-block-buttons { justify-content: flex-start !important; }
-	.cb-map { aspect-ratio: 4 / 3; }
+	.cb-map { aspect-ratio: auto; height: 300px; min-height: 0; }
+	.cb-box .wp-block-button__link { white-space: normal; text-align: center; }
 	.cb-grid .wp-block-post-template { grid-template-columns: 1fr !important; }
 	.cb-footer__row { flex-direction: column; justify-content: center !important; }
 	.cb-badges { margin-top: 2rem !important; }
