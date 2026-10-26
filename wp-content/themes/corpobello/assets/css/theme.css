@@ -105,7 +105,7 @@ img { height: auto; }
 .cb-howto-home { gap: 0 !important; margin: 0 !important; }
 .cb-howto-home__text { padding: var(--cb-section-y) clamp(1.5rem, 5vw, 5rem); display: flex; flex-direction: column; align-items: center; }
 .cb-howto-home__text h2 { font-size: clamp(2.5rem, 5vw, 4rem); }
-.cb-howto-home__media { position: relative; min-height: 420px; }
+.cb-howto-home__media { position: relative; min-height: 420px; background: #3d332e; }
 .cb-howto-home__img, .cb-howto-home__img img { position: absolute; inset: 0; width: 100%; height: 100% !important; object-fit: cover; margin: 0 !important; }
 .cb-circles4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 2rem; margin: 2.5rem 0 2rem !important; }
 .cb-circle { width: clamp(150px, 15vw, 190px); aspect-ratio: 1; border: 1.5px solid var(--cb-cream); border-radius: 50%; display: grid; place-content: center; text-align: center; margin: 0 auto !important; padding: 1rem; font-size: .95rem; line-height: 1.25; color: var(--cb-cream); }
@@ -263,3 +263,76 @@ img { height: auto; }
 /* full-bleed split band (home "¿Cómo agendar?") */
 .cb-main .wp-block-post-content > .cb-howto-home.alignfull { max-width: none !important; width: auto; margin-left: calc(var(--wp--style--root--padding-left) * -1) !important; margin-right: calc(var(--wp--style--root--padding-right) * -1) !important; flex-wrap: nowrap; }
 @media (max-width: 781px) { .cb-main .wp-block-post-content > .cb-howto-home.alignfull { flex-wrap: wrap; } }
+
+/* ======================================================================
+   One page (22 Oct 2026 scope): header anchors, offers of the month,
+   the price menu, contact details. Mobile first where it matters.
+   ====================================================================== */
+[id] { scroll-margin-top: 1rem; }
+.cb-header { align-items: center; gap: 1.5rem; }
+.cb-header .cb-nav { display: flex; gap: 2.25rem; margin-left: auto; }
+.cb-header .cb-nav a { color: #fff; text-decoration: none; position: relative; padding: .6rem 0; }
+.cb-header .cb-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: .3rem; height: 1px; background: currentColor; transform: scaleX(0); transition: transform .25s ease; }
+.cb-header .cb-nav a:hover::after, .cb-header .cb-nav a:focus-visible::after { transform: scaleX(1); }
+.cb-head-cta { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.25rem; border-radius: 999px; background: var(--cb-cream); color: var(--cb-brown); font-family: var(--wp--preset--font-family--body); font-weight: 700; font-size: .95rem; text-decoration: none; box-shadow: 0 6px 20px rgba(0, 0, 0, .18); transition: transform .2s ease, background-color .2s ease; }
+.cb-head-cta:hover { background: #fff; transform: translateY(-1px); }
+.cb-head-cta:active { transform: scale(.96); }
+.cb-no-offers .cb-nav-ofertas { display: none !important; }
+
+/* ---------- offers of the month ---------- */
+.cb-offers .cb-wrap { max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.25rem); }
+.cb-offers h2 { font-size: clamp(2.5rem, 6vw, 4.25rem); margin: 0; text-wrap: balance; }
+.cb-offer-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 360px)); justify-content: center; gap: 1.25rem; margin-top: 2.5rem; }
+.cb-offer { background: var(--cb-cream); color: var(--cb-text); border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 1px 0 rgba(255, 255, 255, .4) inset, 0 18px 40px rgba(0, 0, 0, .28); }
+.cb-offer__img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; outline: 1px solid rgba(0, 0, 0, .1); outline-offset: -1px; }
+.cb-offer__body { padding: 1.75rem 1.75rem 1.9rem; display: flex; flex-direction: column; gap: .6rem; flex: 1; }
+.cb-offer__title { font-size: clamp(1.9rem, 3vw, 2.3rem) !important; line-height: 1.05; color: var(--cb-brown) !important; margin: 0 !important; text-wrap: balance; }
+.cb-offer__text { margin: 0; text-wrap: pretty; }
+.cb-offer__price { margin: .4rem 0 0; padding-top: .8rem; border-top: 2px solid var(--wp--preset--color--gold, #e4ae5c); color: var(--cb-brown); font-weight: 700; font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+.cb-offer__until { margin: 0; font-size: .9rem; }
+.cb-offer .wp-block-button { margin-top: auto; padding-top: .9rem; }
+.cb-offer .wp-block-button__link { width: 100%; justify-content: center; box-sizing: border-box; }
+
+/* ---------- price menu ---------- */
+.cb-menu > h2 { font-size: clamp(2.5rem, 6vw, 4.25rem); text-wrap: balance; }
+.cb-menu__chips { position: sticky; top: 0; z-index: 6; flex-wrap: nowrap !important; overflow-x: auto; scrollbar-width: none; gap: .5rem !important; padding: .75rem .25rem !important; margin-top: 1.75rem !important; background: rgba(61, 51, 46, .94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 999px; }
+.cb-menu__chips::-webkit-scrollbar { display: none; }
+.cb-chip .wp-block-button__link { background: transparent; color: var(--cb-cream); border: 1px solid rgba(250, 247, 239, .45); box-shadow: none; padding: 0 1.1rem; min-height: 44px; font-size: .95rem; white-space: nowrap; }
+.cb-chip .wp-block-button__link:hover, .cb-chip .wp-block-button__link:focus-visible { background: var(--cb-cream); color: var(--cb-brown); transform: none; }
+.cb-menu__cat { margin-top: clamp(2.5rem, 6vw, 4rem) !important; scroll-margin-top: 5.5rem; }
+.cb-menu__h { color: var(--cb-cream) !important; font-size: clamp(2rem, 4.5vw, 2.75rem) !important; line-height: 1.05; margin: 0 !important; padding-bottom: .9rem; border-bottom: 1px solid rgba(228, 174, 92, .55); text-wrap: balance; }
+.cb-menu__note { margin: .9rem 0 0 !important; font-size: .95rem; color: var(--cb-cream); opacity: .9; }
+.cb-menu__list { display: grid; grid-template-columns: 1fr; column-gap: 3.5rem; margin-top: .25rem !important; }
+.cb-mi { margin: 0 !important; padding: 1rem .25rem; border-bottom: 1px solid rgba(250, 247, 239, .14); color: rgba(250, 247, 239, .84); line-height: 1.55; font-size: 1rem; text-wrap: pretty; scroll-margin-top: 5.5rem; transition: background-color .3s ease; }
+.cb-mi__n { color: var(--cb-cream); font-weight: 700; }
+.cb-price { color: #e4ae5c; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cb-mi:target { background: rgba(228, 174, 92, .16); border-radius: 10px; padding-inline: .75rem; }
+.cb-menu__cta { margin-top: 3rem !important; }
+@media (min-width: 900px) { .cb-menu__list { grid-template-columns: 1fr 1fr; } }
+
+/* ---------- contact ---------- */
+.cb-contact > h2 { font-size: clamp(2.5rem, 6vw, 4.25rem); }
+.cb-info { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2.5rem !important; max-width: 1240px; }
+.cb-info__item { border-top: 1px solid rgba(228, 174, 92, .55); padding-top: 1.1rem; }
+.cb-info__item h3 { color: var(--cb-cream); font-size: 1.9rem; margin: 0 0 .5rem; }
+.cb-info__item p { margin: 0 0 .6rem; line-height: 1.6; color: var(--cb-cream); }
+.cb-info__link { color: var(--cb-cream); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(228, 174, 92, .8); display: inline-block; padding: .35rem 0; }
+.cb-info__link:hover { color: #fff; }
+.cb-info__muted { opacity: .8; }
+.cb-contact__cta { margin-top: 2.5rem !important; gap: .9rem !important; }
+.cb-contact .cb-ghost .wp-block-button__link { padding: .85rem 1.6rem; font-size: 1rem; }
+@media (min-width: 782px) { .cb-info { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+
+/* ---------- footer ---------- */
+.cb-footer__info { margin-top: 2rem !important; color: #c9c6be; font-size: .95rem; line-height: 1.6; }
+.cb-footer__info a { color: #fff; }
+
+@media (max-width: 781px) {
+	.cb-header .cb-nav { display: none; }
+	.cb-head-cta { font-size: .875rem; padding: 0 1rem; }
+	.cb-menu__chips { border-radius: 14px; margin-inline: calc(var(--wp--style--root--padding-left, 0px) * -1) !important; }
+	.cb-mi { padding: .9rem 0; }
+}
+.cb-menu__cat > * { max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; }
+@media (max-width: 781px) { .cb-contact .cb-contact__cta { justify-content: center !important; } }
+@media (max-width: 781px) { .cb-menu__chips { justify-content: flex-start !important; padding-inline: 1rem !important; } }

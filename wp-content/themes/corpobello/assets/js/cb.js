@@ -1,4 +1,4 @@
-/* CorpoBello: carousel arrows and the treatments category filter. Plain JS, deferred, no dependencies. */
+/* CorpoBello: carousel arrows, the treatments category filter and the offers' last day. Plain JS, deferred, no dependencies. */
 ( function () {
 	var arrow = function ( dir ) {
 		return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="' + ( dir < 0 ? 'M15.4 5.4 14 4l-8 8 8 8 1.4-1.4L8.8 12z' : 'M8.6 5.4 10 4l8 8-8 8-1.4-1.4 6.6-6.6z' ) + '"/></svg>';
@@ -52,4 +52,21 @@
 			} );
 		} );
 	} );
+
+	/* Offers of the month: the server already leaves out expired ones; this covers a cached page or the
+	   static preview. Each offer is shown through its last day, Puerto Rico time (UTC-4, no DST). */
+	var offers = document.querySelector( '[data-cb-offers]' );
+	if ( offers ) {
+		var now = Date.now();
+		offers.querySelectorAll( '[data-hasta]' ).forEach( function ( card ) {
+			var end = Date.parse( card.getAttribute( 'data-hasta' ) + 'T23:59:59-04:00' );
+			if ( ! isNaN( end ) && now > end ) {
+				card.parentNode.removeChild( card );
+			}
+		} );
+		if ( ! offers.querySelector( '[data-hasta]' ) ) {
+			offers.parentNode.removeChild( offers );
+			document.body.classList.add( 'cb-no-offers' );
+		}
+	}
 } )();
