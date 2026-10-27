@@ -10,6 +10,8 @@
 		wrap.className = 'cb-carousel-wrap';
 		track.parentNode.insertBefore( wrap, track );
 		wrap.appendChild( track );
+		// sideways trackpad swipes scroll the carousel, never the page (Lenis, motion.js)
+		track.setAttribute( 'data-lenis-prevent-horizontal', '' );
 		var prev = document.createElement( 'button' );
 		var next = document.createElement( 'button' );
 		prev.className = 'cb-car-btn cb-car-btn--prev';
@@ -82,6 +84,13 @@
 		var cats = [].slice.call( menu.querySelectorAll( '.cb-menu__cat' ) );
 		var triggers = [].slice.call( document.querySelectorAll( '[data-cb-cat]' ) );
 		var reduce = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+		// a wheel scroll keeps Lenis (motion.js) animating for ~0.8 s and it would cancel our scroll: stop it first
+		var calm = function () {
+			if ( window.cbLenis ) {
+				window.cbLenis.stop();
+				window.cbLenis.start();
+			}
+		};
 		var openCat = function ( id ) {
 			cats.forEach( function ( c ) { c.classList.toggle( 'is-open', c.id === id ); } );
 			triggers.forEach( function ( t ) { t.setAttribute( 'aria-expanded', t.getAttribute( 'data-cb-cat' ) === id ? 'true' : 'false' ); } );
@@ -114,6 +123,7 @@
 				if ( history.replaceState ) {
 					history.replaceState( null, '', '#' + id );
 				}
+				calm();
 				cat.scrollIntoView( { behavior: reduce ? 'auto' : 'smooth', block: 'start' } );
 				cat.focus( { preventScroll: true } );
 			} );
@@ -134,6 +144,7 @@
 			var back = id && document.querySelector( '[data-cb-cat="' + id + '"]' );
 			if ( back ) {
 				back.focus( { preventScroll: true } );
+				calm();
 				back.scrollIntoView( { behavior: reduce ? 'auto' : 'smooth', block: 'center' } );
 			}
 		} );
@@ -154,6 +165,7 @@
 			if ( el !== cat ) {
 				el.classList.add( 'is-target' );
 			}
+			calm();
 			el.scrollIntoView( { block: el === cat ? 'start' : 'center', behavior: 'instant' } );
 		};
 		fromHash();
@@ -176,6 +188,14 @@
 			burger.setAttribute( 'aria-expanded', on ? 'true' : 'false' );
 			burger.setAttribute( 'aria-label', on ? 'Cerrar menú' : 'Menú' );
 			document.documentElement.classList.toggle( 'cb-menu-open', on );
+			// smooth wheel scrolling (motion.js) must not move the page behind the open menu
+			if ( window.cbLenis ) {
+				if ( on ) {
+					window.cbLenis.stop();
+				} else {
+					window.cbLenis.start();
+				}
+			}
 			// keep Tab inside the open menu: everything else on the page is inert while it is open
 			document.querySelectorAll( '.wp-site-blocks > :not(.cb-header-wrap), .cb-wa-fab' ).forEach( function ( el ) {
 				if ( on ) {

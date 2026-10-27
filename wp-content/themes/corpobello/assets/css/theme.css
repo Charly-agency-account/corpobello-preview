@@ -40,9 +40,9 @@ img { height: auto; }
 .cb-nav .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content { color: var(--cb-cream); }
 
 /* ---------- buttons ---------- */
-.cb-btn .wp-block-button__link { display: inline-flex; align-items: center; gap: .6rem; line-height: 1.2; letter-spacing: .01em; transition: transform .2s ease, background-color .2s ease, color .2s ease; box-shadow: 0 6px 24px rgba(0, 0, 0, .12); }
-.cb-btn .wp-block-button__link:hover { transform: translateY(-2px); background: #fff; }
-.cb-btn .wp-block-button__link:active { transform: scale(.97); }
+.cb-btn .wp-block-button__link { display: inline-flex; align-items: center; gap: .6rem; line-height: 1.2; letter-spacing: .01em; transition: background-color .3s, color .3s, border-color .3s; box-shadow: 0 6px 24px rgba(0, 0, 0, .12); }
+/* hover and keyboard focus as the live page's Elementor buttons: secondary #99978F, white text, 0.3 s */
+.cb-btn .wp-block-button__link:hover, .cb-btn .wp-block-button__link:focus-visible { background: #99978f; color: #fff; }
 .cb-wa .wp-block-button__link::after, .cb-chat .wp-block-button__link::after, .cb-phone .wp-block-button__link::before, .cb-arrow .wp-block-button__link::after {
 	content: ""; width: 18px; height: 18px; flex: none; background: currentColor;
 	-webkit-mask: var(--cb-icon) center / contain no-repeat; mask: var(--cb-icon) center / contain no-repeat;
@@ -52,7 +52,7 @@ img { height: auto; }
 .cb-phone { --cb-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z'/%3E%3C/svg%3E"); }
 .cb-arrow { --cb-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M13 5l7 7-7 7-1.4-1.4 4.6-4.6H4v-2h12.2l-4.6-4.6z'/%3E%3C/svg%3E"); }
 .cb-dark .wp-block-button__link { background: var(--cb-brown); color: var(--cb-cream); }
-.cb-dark .wp-block-button__link:hover { background: #3b312c; color: #fff; }
+.cb-dark .wp-block-button__link:hover, .cb-dark .wp-block-button__link:focus-visible { background: #99978f; color: #fff; }
 .cb-ghost .wp-block-button__link { background: rgba(250, 247, 239, .18); color: #fff; border: 1px solid rgba(250, 247, 239, .55); padding: .55rem 1.4rem; font-size: .95rem; box-shadow: none; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .cb-ghost .wp-block-button__link:hover { background: var(--cb-cream); color: var(--cb-brown); }
 .cb-link .wp-block-button__link { background: none; box-shadow: none; color: #fff; padding: .25rem .25rem; text-decoration: underline; text-underline-offset: 4px; font-size: 1rem; }
@@ -81,16 +81,14 @@ img { height: auto; }
 .cb-badges { gap: clamp(.75rem, 2vw, 1.5rem) !important; margin-top: clamp(2rem, 6vh, 4rem) !important; }
 .cb-badge { width: clamp(118px, 12vw, 150px); aspect-ratio: 1; display: grid; place-items: center; text-align: center; border: 1px solid rgba(255, 255, 255, .55); border-radius: 50%; padding: 1rem; margin: 0 !important; font-size: clamp(.875rem, 1.2vw, 1.0625rem); line-height: 1.3; background: rgba(77, 64, 58, .18); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
 .cb-social { margin-top: clamp(1.5rem, 5vh, 3rem) !important; gap: 1rem !important; }
-.cb-social .wp-social-link { transition: transform .2s ease; }
-.cb-social .wp-social-link:hover { transform: translateY(-2px); }
+.cb-social .wp-social-link { transition: transform .3s; }
+.cb-social .wp-social-link:hover, .cb-social .wp-social-link:focus-within { transform: scale(1.1); color: #99978f !important; opacity: .9; }
 .cb-social.has-large-icon-size { font-size: 38px; }
 
 /* ---------- home: services grid ---------- */
 .cb-services > h2 { font-size: clamp(2.75rem, 6vw, 4.25rem); }
 .cb-svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 3rem !important; max-width: 1240px; }
 .cb-svc { border-radius: var(--cb-radius); overflow: hidden; min-height: 300px !important; padding: 1.75rem !important; align-items: flex-end !important; margin: 0 !important; }
-.cb-svc .wp-block-cover__image-background { transition: transform .6s ease; }
-.cb-svc:hover .wp-block-cover__image-background { transform: scale(1.05); }
 .cb-svc .wp-block-cover__inner-container { width: 100%; }
 .cb-svc__title, .cb-chatcard .cb-svc__title { color: var(--cb-cream) !important; font-size: clamp(2rem, 3vw, 2.6rem) !important; margin: 0 0 .75rem; }
 .cb-chatcard { background: var(--cb-brown) var(--cb-leather) center / 600px; border-radius: var(--cb-radius); padding: 1.75rem 1.75rem 0; color: var(--cb-cream); position: relative; overflow: hidden; min-height: 300px; display: flex; flex-direction: column; }
@@ -269,9 +267,8 @@ img { height: auto; }
 [id] { scroll-margin-top: 1rem; }
 .cb-header { align-items: center; gap: 1.5rem; }
 .cb-header .cb-nav { display: flex; gap: 2.25rem; margin-left: auto; }
-.cb-header .cb-nav a { color: #fff; text-decoration: none; position: relative; padding: .6rem 0; }
-.cb-header .cb-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: .3rem; height: 1px; background: currentColor; transform: scaleX(0); transition: transform .25s ease; }
-.cb-header .cb-nav a:hover::after, .cb-header .cb-nav a:focus-visible::after { transform: scaleX(1); }
+.cb-header .cb-nav a { color: #fff; text-decoration: none; position: relative; padding: .6rem 0; transition: color .4s; }
+.cb-header .cb-nav a:hover, .cb-header .cb-nav a:focus-visible { color: #c4c3c3; }
 .cb-no-offers .cb-nav-ofertas { display: none !important; }
 
 /* ---------- offers of the month ---------- */
@@ -367,7 +364,8 @@ html:not(.cb-js) .cb-svc__more { display: none; }
 .cb-svc__model img { display: block; width: 100%; height: auto; }
 .cb-svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 37px !important; max-width: 1230px; }
 .cb-svc { border-radius: 14px; min-height: 300px !important; padding: 20px !important; align-items: flex-end !important; justify-content: flex-start !important; }
-.cb-svc .wp-block-cover__background { opacity: 0 !important; }
+.cb-svc .wp-block-cover__background { background-color: #4d403a !important; opacity: 0 !important; transition: opacity .5s; }
+.cb-svc:hover .wp-block-cover__background { opacity: .5 !important; }
 .cb-svc .wp-block-cover__image-background { object-position: 0 0; }
 .cb-svc--depilacion .wp-block-cover__image-background { object-position: 50% 50%; }
 .cb-svc--estetica-medica, .cb-chatcard { grid-column: span 2; }
@@ -379,8 +377,9 @@ html:not(.cb-js) .cb-svc__more { display: none; }
 .cb-chatcard .cb-svc__sub { margin: 0 0 20px !important; font-size: 1rem; }
 .cb-chatcard .wp-block-buttons { margin-top: 0 !important; }
 .cb-chatcard .cb-btn .wp-block-button__link { font-size: 1.0625rem; min-height: 55px; padding: 0 1.2rem; }
-.cb-svc__more { display: inline-flex; align-items: center; min-height: 44px; padding: 0 23px; border-radius: 50px; border: 1px solid rgba(250, 247, 239, .2); background: rgba(77, 64, 58, .08); color: var(--cb-cream); font: 500 1.0625rem/1 var(--wp--preset--font-family--body); cursor: pointer; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: background-color .2s ease, color .2s ease; }
-.cb-svc__more:hover, .cb-svc__more:focus-visible, .cb-svc__more[aria-expanded="true"] { background: var(--cb-cream); color: var(--cb-brown); }
+.cb-svc__more { display: inline-flex; align-items: center; min-height: 44px; padding: 0 23px; border-radius: 50px; border: 1px solid rgba(250, 247, 239, .2); background: rgba(77, 64, 58, .08); color: var(--cb-cream); font: 500 1.0625rem/1 var(--wp--preset--font-family--body); cursor: pointer; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: background-color .3s, color .3s; }
+.cb-svc__more[aria-expanded="true"] { background: var(--cb-cream); color: var(--cb-brown); }
+.cb-svc__more:hover, .cb-svc__more:focus-visible { background: #99978f; color: #fff; }
 
 /* the price lists, one per category, under the grid */
 .cb-menu { margin-top: 0 !important; max-width: 1230px; }
@@ -482,4 +481,35 @@ html:not(.cb-js) .cb-menu__close { display: none; }
 	.cb-howto-home__media { min-height: 210px; }
 	.cb-howto-home__img, .cb-howto-home__img img { object-position: 50% 58%; }
 	.cb-contact h2 { max-width: 260px; margin-inline: auto !important; }
+}
+
+/* ======================================================================
+   Motion, matched to the live homepage (measured 27 Oct 2026). motion.js
+   adds html.cb-motion-ease and the per-circle .cb-zoom-wait; it never runs
+   under prefers-reduced-motion, and without it nothing here hides anything.
+   ====================================================================== */
+/* Elementor eases every scroll effect to its new value over 1 s with this curve */
+html.cb-motion-ease .cb-hero--home .cb-badge,
+html.cb-motion-ease .cb-services .cb-svc-grid,
+html.cb-motion-ease .cb-howto-home__img img,
+html.cb-motion-ease .cb-hero--home .wp-block-cover__image-background { transition: transform 1s cubic-bezier(0, .33, .07, 1.03), opacity 1s cubic-bezier(0, .33, .07, 1.03); }
+
+/* ¿Cómo agendar? photo: drawn 113 % wide like the live background layer, so it can drift left 13 % */
+.cb-howto-home__media { overflow: hidden; }
+.cb-howto-home__img img { width: 113% !important; max-width: none; right: auto; }
+
+/* hero photo on phones: the live layer is 200 % wide, centred, at -43 % when the page is at the top */
+@media (max-width: 781px) {
+	.cb-hero.cb-hero--home { overflow: hidden; }
+	.cb-hero--home .wp-block-cover__image-background { width: 200% !important; max-width: none !important; right: auto !important; object-position: 50% 50% !important; transform: translateX(-43%); }
+}
+
+/* ¿Cómo agendar? step circles: Elementor zoomIn, 1.25 s ease */
+/* opacity, not visibility: the steps stay in the accessibility tree and in find-in-page while they wait */
+.cb-circle.cb-zoom-wait { opacity: 0; }
+.cb-circle.cb-zoom-in { animation: cb-zoom-in 1.25s ease both; }
+@keyframes cb-zoom-in { from { opacity: 0; transform: scale3d(.3, .3, .3); } 50% { opacity: 1; } }
+@media print {
+	.cb-circle.cb-zoom-wait, .cb-svc-grid { opacity: 1 !important; }
+	.cb-badge, .cb-howto-home__img img { transform: none !important; }
 }
