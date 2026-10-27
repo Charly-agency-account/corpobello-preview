@@ -358,7 +358,7 @@ html:not(.cb-js) .cb-svc__more { display: none; }
 
 /* Servicios: the live gradient, the cut-out behind the cards, the 1 / 3 / 2+1 card grid */
 .cb-services { position: relative; isolation: isolate; overflow: clip; background: radial-gradient(at 0% 100%, #99978f 46%, #75746d 70%); color: #fff; padding-top: 127px !important; padding-bottom: 163px !important; }
-.cb-services > h2 { font-size: clamp(3rem, 4.4vw, 3.9375rem) !important; line-height: 1.1; margin: 0 !important; }
+.cb-services > h2 { font-size: clamp(3rem, 4.4vw, 3.9375rem) !important; line-height: 1.1; margin: 0 auto !important; }
 .cb-services > .cb-lead { font-size: 1rem; margin-top: .9rem !important; }
 .cb-services > .cb-svc__model { position: absolute !important; left: 0 !important; top: 0; width: 638px; max-width: 44.3vw !important; margin: 0 !important; z-index: -1; pointer-events: none; }
 .cb-svc__model img { display: block; width: 100%; height: auto; }
@@ -497,6 +497,15 @@ html.cb-motion-ease .cb-hero--home .wp-block-cover__image-background { transitio
 /* ¿Cómo agendar? photo: drawn 113 % wide like the live background layer, so it can drift left 13 % */
 .cb-howto-home__media { overflow: hidden; }
 .cb-howto-home__img img { width: 113% !important; max-width: none; right: auto; }
+
+/* Servicios cut-out, 1025 px and up: the live section paints it on a background-attachment: fixed layer
+   (top left, contain), so it stays pinned to the window while the section scrolls over it. Same here with
+   the <img>: fixed to the viewport, contain-fitted from the top left, clipped to the section by clip-path. */
+@media screen and (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
+	.cb-services { clip-path: inset(0); }
+	.cb-services > .cb-svc__model { position: fixed !important; inset: 0 !important; width: auto; max-width: none !important; }
+	.cb-services > .cb-svc__model img { width: 100%; height: 100%; object-fit: contain; object-position: 0 0; }
+}
 
 /* hero photo on phones: the live layer is 200 % wide, centred, at -43 % when the page is at the top */
 @media (max-width: 781px) {
