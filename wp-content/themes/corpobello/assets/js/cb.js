@@ -1,4 +1,5 @@
-/* CorpoBello: carousel arrows, the treatments category filter and the offers' last day. Plain JS, deferred, no dependencies. */
+/* CorpoBello: carousel arrows, the treatments category filter, the offers' last day, the price lists under the
+   service cards and the phone menu. Plain JS, deferred, no dependencies. */
 ( function () {
 	var arrow = function ( dir ) {
 		return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="' + ( dir < 0 ? 'M15.4 5.4 14 4l-8 8 8 8 1.4-1.4L8.8 12z' : 'M8.6 5.4 10 4l8 8-8 8-1.4-1.4 6.6-6.6z' ) + '"/></svg>';
@@ -68,5 +69,136 @@
 			offers.parentNode.removeChild( offers );
 			document.body.classList.add( 'cb-no-offers' );
 		}
+	}
+
+	/* Price lists: each service card's "Ver Más" opens its category's list under the card grid, one at a
+	   time. Deep links (/#morpheus8, /#faciales, the 301 targets of the old treatment URLs) open the right
+	   list and scroll to the line. html.cb-js (set in <head>) hides the closed lists, so no JS = all open. */
+	var menu = document.querySelector( '.cb-menu' );
+	if ( menu ) {
+		document.documentElement.classList.add( 'cb-js' );
+		window.cbReady = true;
+		var touched = false;
+		var cats = [].slice.call( menu.querySelectorAll( '.cb-menu__cat' ) );
+		var triggers = [].slice.call( document.querySelectorAll( '[data-cb-cat]' ) );
+		var reduce = window.matchMedia && window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+		var openCat = function ( id ) {
+			cats.forEach( function ( c ) { c.classList.toggle( 'is-open', c.id === id ); } );
+			triggers.forEach( function ( t ) { t.setAttribute( 'aria-expanded', t.getAttribute( 'data-cb-cat' ) === id ? 'true' : 'false' ); } );
+		};
+		var current = function () {
+			var o = menu.querySelector( '.cb-menu__cat.is-open' );
+			return o ? o.id : null;
+		};
+		cats.forEach( function ( c ) {
+			c.setAttribute( 'tabindex', '-1' );
+			c.setAttribute( 'role', 'region' );
+			if ( document.getElementById( c.id + '-h' ) ) {
+				c.setAttribute( 'aria-labelledby', c.id + '-h' );
+			}
+		} );
+		triggers.forEach( function ( t ) {
+			t.addEventListener( 'click', function () {
+				var id = t.getAttribute( 'data-cb-cat' );
+				var cat = document.getElementById( id );
+				touched = true;
+				if ( ! cat ) {
+					return;
+				}
+				if ( current() === id ) {
+					openCat( null );
+					clearHash();
+					return;
+				}
+				openCat( id );
+				if ( history.replaceState ) {
+					history.replaceState( null, '', '#' + id );
+				}
+				cat.scrollIntoView( { behavior: reduce ? 'auto' : 'smooth', block: 'start' } );
+				cat.focus( { preventScroll: true } );
+			} );
+		} );
+		var clearHash = function () {
+			if ( history.replaceState ) {
+				history.replaceState( null, '', location.pathname + location.search );
+			}
+		};
+		menu.addEventListener( 'click', function ( e ) {
+			if ( ! e.target.closest( '[data-cb-close]' ) ) {
+				return;
+			}
+			var id = current();
+			touched = true;
+			openCat( null );
+			clearHash();
+			var back = id && document.querySelector( '[data-cb-cat="' + id + '"]' );
+			if ( back ) {
+				back.focus( { preventScroll: true } );
+				back.scrollIntoView( { behavior: reduce ? 'auto' : 'smooth', block: 'center' } );
+			}
+		} );
+		var fromHash = function () {
+			var id = '';
+			try {
+				id = decodeURIComponent( location.hash.slice( 1 ) );
+			} catch ( err ) {
+				return;
+			}
+			var el = id && document.getElementById( id );
+			var cat = el && ( el.classList.contains( 'cb-menu__cat' ) ? el : el.closest( '.cb-menu__cat' ) );
+			if ( ! cat ) {
+				return;
+			}
+			openCat( cat.id );
+			menu.querySelectorAll( '.cb-mi.is-target' ).forEach( function ( m ) { m.classList.remove( 'is-target' ); } );
+			if ( el !== cat ) {
+				el.classList.add( 'is-target' );
+			}
+			el.scrollIntoView( { block: el === cat ? 'start' : 'center', behavior: 'instant' } );
+		};
+		fromHash();
+		var y0 = window.scrollY;
+		window.addEventListener( 'hashchange', fromHash );
+		window.addEventListener( 'load', function () {
+			// late images can shift the target; re-aim only if the visitor has not moved or clicked since
+			if ( location.hash && ! touched && Math.abs( window.scrollY - y0 ) < 2 ) {
+				fromHash();
+			}
+		} );
+	}
+
+	/* Phone menu: the header links fold into a button under 782 px. */
+	var head = document.querySelector( '.cb-header' );
+	var burger = head && head.querySelector( '.cb-burger' );
+	if ( burger ) {
+		var setMenu = function ( on ) {
+			head.classList.toggle( 'is-open', on );
+			burger.setAttribute( 'aria-expanded', on ? 'true' : 'false' );
+			burger.setAttribute( 'aria-label', on ? 'Cerrar menú' : 'Menú' );
+			document.documentElement.classList.toggle( 'cb-menu-open', on );
+			// keep Tab inside the open menu: everything else on the page is inert while it is open
+			document.querySelectorAll( '.wp-site-blocks > :not(.cb-header-wrap), .cb-wa-fab' ).forEach( function ( el ) {
+				if ( on ) {
+					el.setAttribute( 'inert', '' );
+				} else {
+					el.removeAttribute( 'inert' );
+				}
+			} );
+		};
+		if ( window.matchMedia ) {
+			var wide = window.matchMedia( '(min-width: 782px)' );
+			var onWide = function () { if ( wide.matches ) { setMenu( false ); } };
+			if ( wide.addEventListener ) {
+				wide.addEventListener( 'change', onWide );
+			}
+		}
+		burger.addEventListener( 'click', function () { setMenu( ! head.classList.contains( 'is-open' ) ); } );
+		head.querySelectorAll( '.cb-nav a' ).forEach( function ( a ) { a.addEventListener( 'click', function () { setMenu( false ); } ); } );
+		document.addEventListener( 'keydown', function ( e ) {
+			if ( 'Escape' === e.key && head.classList.contains( 'is-open' ) ) {
+				setMenu( false );
+				burger.focus();
+			}
+		} );
 	}
 } )();

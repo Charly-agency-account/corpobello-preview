@@ -6,7 +6,7 @@
 	--cb-stone: #75736c;
 	--cb-cream: #faf7ef;
 	--cb-text: #575757;
-	--cb-ink: #303030;
+	--cb-ink: #313131;
 	--cb-radius: 16px;
 	--cb-section-y: clamp(3.5rem, 8vw, 6.5rem);
 	--cb-leather: url("../img/leather.webp");
@@ -60,7 +60,7 @@ img { height: auto; }
 
 /* ---------- section backgrounds ---------- */
 .cb-section { padding-top: var(--cb-section-y); padding-bottom: var(--cb-section-y); }
-.cb-grey { background: radial-gradient(120% 90% at 30% 20%, #9a978f 0%, #8a877f 45%, #6f6d66 100%); color: #fff; }
+.cb-grey { background: radial-gradient(at 0% 100%, #99978f 46%, #75746d 70%); color: #fff; }
 .cb-leather { background-color: var(--cb-brown); background-image: linear-gradient(rgba(77, 64, 58, .55), rgba(77, 64, 58, .55)), var(--cb-leather); background-size: auto, 700px; color: var(--cb-cream); }
 .cb-brown { background: var(--cb-brown); color: var(--cb-cream); }
 .cb-lead { font-size: var(--wp--preset--font-size--large); margin-top: .5rem !important; opacity: .95; }
@@ -98,8 +98,6 @@ img { height: auto; }
 .cb-chatcard .wp-block-button__link { white-space: nowrap; }
 .cb-svc__sub { margin: 0 0 1rem !important; }
 .cb-chatcard .cb-btn .wp-block-button__link { font-size: .9rem; padding: .7rem 1.1rem; }
-.cb-chatcard__img { position: absolute !important; right: -6%; bottom: 0; width: 46%; max-width: none !important; margin: 0 !important; z-index: 0 !important; }
-.cb-chatcard__img img { width: 100%; display: block; }
 
 /* ---------- home: how to book ---------- */
 .cb-howto-home { gap: 0 !important; margin: 0 !important; }
@@ -274,9 +272,6 @@ img { height: auto; }
 .cb-header .cb-nav a { color: #fff; text-decoration: none; position: relative; padding: .6rem 0; }
 .cb-header .cb-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: .3rem; height: 1px; background: currentColor; transform: scaleX(0); transition: transform .25s ease; }
 .cb-header .cb-nav a:hover::after, .cb-header .cb-nav a:focus-visible::after { transform: scaleX(1); }
-.cb-head-cta { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.25rem; border-radius: 999px; background: var(--cb-cream); color: var(--cb-brown); font-family: var(--wp--preset--font-family--body); font-weight: 700; font-size: .95rem; text-decoration: none; box-shadow: 0 6px 20px rgba(0, 0, 0, .18); transition: transform .2s ease, background-color .2s ease; }
-.cb-head-cta:hover { background: #fff; transform: translateY(-1px); }
-.cb-head-cta:active { transform: scale(.96); }
 .cb-no-offers .cb-nav-ofertas { display: none !important; }
 
 /* ---------- offers of the month ---------- */
@@ -295,8 +290,6 @@ img { height: auto; }
 
 /* ---------- price menu ---------- */
 .cb-menu > h2 { font-size: clamp(2.5rem, 6vw, 4.25rem); text-wrap: balance; }
-.cb-menu__chips { position: sticky; top: 0; z-index: 6; flex-wrap: nowrap !important; overflow-x: auto; scrollbar-width: none; gap: .5rem !important; padding: .75rem .25rem !important; margin-top: 1.75rem !important; background: rgba(61, 51, 46, .94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 999px; }
-.cb-menu__chips::-webkit-scrollbar { display: none; }
 .cb-chip .wp-block-button__link { background: transparent; color: var(--cb-cream); border: 1px solid rgba(250, 247, 239, .45); box-shadow: none; padding: 0 1.1rem; min-height: 44px; font-size: .95rem; white-space: nowrap; }
 .cb-chip .wp-block-button__link:hover, .cb-chip .wp-block-button__link:focus-visible { background: var(--cb-cream); color: var(--cb-brown); transform: none; }
 .cb-menu__cat { margin-top: clamp(2.5rem, 6vw, 4rem) !important; scroll-margin-top: 5.5rem; }
@@ -324,15 +317,169 @@ img { height: auto; }
 @media (min-width: 782px) { .cb-info { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
 
 /* ---------- footer ---------- */
-.cb-footer__info { margin-top: 2rem !important; color: #c9c6be; font-size: .95rem; line-height: 1.6; }
-.cb-footer__info a { color: #fff; }
 
 @media (max-width: 781px) {
 	.cb-header .cb-nav { display: none; }
-	.cb-head-cta { font-size: .875rem; padding: 0 1rem; }
-	.cb-menu__chips { border-radius: 14px; margin-inline: calc(var(--wp--style--root--padding-left, 0px) * -1) !important; }
 	.cb-mi { padding: .9rem 0; }
 }
 .cb-menu__cat > * { max-width: none !important; margin-left: 0 !important; margin-right: 0 !important; }
 @media (max-width: 781px) { .cb-contact .cb-contact__cta { justify-content: center !important; } }
-@media (max-width: 781px) { .cb-menu__chips { justify-content: flex-start !important; padding-inline: 1rem !important; } }
+
+/* ======================================================================
+   Live-homepage fidelity (Andres's QA, 27 Oct 2026). Every number below was
+   measured on corpobello-pr.com at 1440 x 900 and 390 x 844 (computed styles):
+   hero overlay #080808 at 47%, transparent header with the white logo, the
+   Servicios gradient + cut-out + card grid, the vertical steps, flat brown
+   Ofertas and Estamos en San Juan, footer #313131.
+   ====================================================================== */
+.cb-header-wrap, .cb-header { background: transparent !important; }
+.cb-header { max-width: none; width: min(1250px, calc(100% - 2.5rem)); margin: 0 auto; padding: 29px 0 20px; box-sizing: border-box; gap: 1rem; }
+.cb-header .cb-logo { margin-left: 18px; }
+.cb-header .cb-logo img { width: 172px; height: auto; }
+.cb-header .cb-nav { gap: 0; font-size: 1rem; }
+.cb-header .cb-nav a { padding: .75rem 20px; }
+.cb-header .cb-nav a::after { left: 20px; right: 20px; }
+.cb-burger { display: none; flex: none; width: 44px; height: 44px; padding: 11px 8px; border: 0; background: none; cursor: pointer; flex-direction: column; justify-content: space-between; position: relative; z-index: 31; }
+.cb-burger span { display: block; height: 3px; border-radius: 2px; background: #fff; transition: transform .2s ease, opacity .2s ease; }
+.cb-header.is-open .cb-burger span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+.cb-header.is-open .cb-burger span:nth-child(2) { opacity: 0; }
+.cb-header.is-open .cb-burger span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+html:not(.cb-js) .cb-svc__more { display: none; }
+
+/* hero: neutral dark overlay, photo anchored at the bottom, content stacked like the live page */
+.cb-hero.cb-hero--home { min-height: 100svh !important; align-items: stretch !important; padding: max(7rem, 27svh) 1.25rem 20px !important; background-color: rgb(124, 128, 124); }
+.cb-hero--home .wp-block-cover__image-background { object-position: 50% 100% !important; }
+.cb-hero--home .wp-block-cover__background { background-color: #080808 !important; opacity: .47 !important; }
+.cb-hero--home .wp-block-cover__inner-container { display: flex; flex-direction: column; align-items: center; }
+.cb-hero--home .cb-hero__title { font-size: clamp(3.125rem, 5.15vw, 4.625rem) !important; line-height: 1; margin: 0 auto !important; }
+.cb-hero--home .cb-hero__sub { font-size: 1rem; margin: .45rem auto 0 !important; }
+.cb-hero--home .wp-block-buttons { margin-top: 1rem !important; }
+.cb-hero--home .cb-btn .wp-block-button__link, .cb-contact__cta .wp-block-button__link, .cb-howto-home .cb-btn .wp-block-button__link { min-height: 55px; min-width: 285px; padding: 0 1.25rem; justify-content: center; box-sizing: border-box; }
+.cb-hero--home .cb-badges { margin-top: clamp(2rem, 14.5svh, 8.25rem) !important; gap: 20px !important; }
+.cb-hero--home .cb-badge { width: 150px; box-sizing: border-box; padding: .9rem; border-color: rgba(255, 255, 255, .41); background: rgba(8, 8, 8, .14); font-size: 1rem; }
+.cb-hero--home .cb-social { margin-top: auto !important; padding-top: 2rem; }
+
+/* Servicios: the live gradient, the cut-out behind the cards, the 1 / 3 / 2+1 card grid */
+.cb-services { position: relative; isolation: isolate; overflow: clip; background: radial-gradient(at 0% 100%, #99978f 46%, #75746d 70%); color: #fff; padding-top: 127px !important; padding-bottom: 163px !important; }
+.cb-services > h2 { font-size: clamp(3rem, 4.4vw, 3.9375rem) !important; line-height: 1.1; margin: 0 !important; }
+.cb-services > .cb-lead { font-size: 1rem; margin-top: .9rem !important; }
+.cb-services > .cb-svc__model { position: absolute !important; left: 0 !important; top: 0; width: 638px; max-width: 44.3vw !important; margin: 0 !important; z-index: -1; pointer-events: none; }
+.cb-svc__model img { display: block; width: 100%; height: auto; }
+.cb-svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 37px !important; max-width: 1230px; }
+.cb-svc { border-radius: 14px; min-height: 300px !important; padding: 20px !important; align-items: flex-end !important; justify-content: flex-start !important; }
+.cb-svc .wp-block-cover__background { opacity: 0 !important; }
+.cb-svc .wp-block-cover__image-background { object-position: 0 0; }
+.cb-svc--depilacion .wp-block-cover__image-background { object-position: 50% 50%; }
+.cb-svc--estetica-medica, .cb-chatcard { grid-column: span 2; }
+.cb-svc--estetica-medica { grid-column: 1 / -1; }
+.cb-svc--spa, .cb-chatcard { min-height: 352px !important; }
+.cb-svc__title, .cb-chatcard .cb-svc__title { font-size: 3rem !important; line-height: 1; margin: 0 0 10px !important; }
+.cb-chatcard { background: var(--cb-brown); padding: 20px; justify-content: flex-end; }
+.cb-chatcard > * { max-width: none; }
+.cb-chatcard .cb-svc__sub { margin: 0 0 20px !important; font-size: 1rem; }
+.cb-chatcard .wp-block-buttons { margin-top: 0 !important; }
+.cb-chatcard .cb-btn .wp-block-button__link { font-size: 1.0625rem; min-height: 55px; padding: 0 1.2rem; }
+.cb-svc__more { display: inline-flex; align-items: center; min-height: 44px; padding: 0 23px; border-radius: 50px; border: 1px solid rgba(250, 247, 239, .2); background: rgba(77, 64, 58, .08); color: var(--cb-cream); font: 500 1.0625rem/1 var(--wp--preset--font-family--body); cursor: pointer; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: background-color .2s ease, color .2s ease; }
+.cb-svc__more:hover, .cb-svc__more:focus-visible, .cb-svc__more[aria-expanded="true"] { background: var(--cb-cream); color: var(--cb-brown); }
+
+/* the price lists, one per category, under the grid */
+.cb-menu { margin-top: 0 !important; max-width: 1230px; }
+.cb-menu > .cb-menu__cat { max-width: none !important; }
+@media (min-width: 782px) and (max-width: 1024px) { .cb-svc__title, .cb-chatcard .cb-svc__title { font-size: 2.25rem !important; } }
+.cb-menu__cat { background: var(--cb-brown); border-radius: 14px; padding: clamp(1.5rem, 3vw, 2.5rem); color: var(--cb-cream); margin: 20px 0 0 !important; scroll-margin-top: 1.25rem; }
+.cb-js .cb-menu__cat { margin-top: 20px !important; }
+.cb-js .cb-menu__cat:not(.is-open) { display: none; }
+.cb-menu__cat:focus { outline: none; }
+.cb-menu__cat:focus-visible { outline: 2px solid var(--cb-cream); outline-offset: 3px; }
+.cb-menu__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding-bottom: .9rem; border-bottom: 1px solid rgba(228, 174, 92, .55); }
+.cb-menu__top .cb-menu__h { border: 0; padding: 0; }
+.cb-menu__close { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(250, 247, 239, .35); background: none; color: var(--cb-cream); font-size: 1.6rem; line-height: 1; cursor: pointer; display: grid; place-items: center; }
+.cb-menu__close:hover, .cb-menu__close:focus-visible { background: var(--cb-cream); color: var(--cb-brown); }
+html:not(.cb-js) .cb-menu__close { display: none; }
+.cb-menu__period { margin: 1.25rem 0 0 !important; font-size: .875rem; opacity: .75; }
+.cb-menu__cta { margin-top: 1.25rem !important; }
+.cb-mi.is-target { background: rgba(228, 174, 92, .16); border-radius: 10px; padding-inline: .75rem; }
+
+/* ¿Cómo agendar? : one column of four equal circles */
+.cb-howto-home__text { padding: 109px clamp(1.5rem, 5vw, 5rem) 160px; }
+.cb-howto-home__text h2 { font-size: clamp(2.625rem, 4.4vw, 3.9375rem) !important; line-height: 1.1; margin: 0; }
+.cb-howto-home__text .cb-lead { font-size: 1rem; margin-top: 1rem !important; }
+.cb-circles4 { display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 100px 0 40px !important; }
+.cb-circles4 .cb-circle { width: 200px; border: 2px solid #fff; color: #fff; font-size: 1rem; line-height: 1.1; padding: 1.5rem; box-sizing: border-box; }
+.cb-circles4 .cb-circle strong { font-size: 4rem; font-weight: 300; margin-bottom: .2rem; }
+.cb-howto-home__img, .cb-howto-home__img img { object-position: 50% 0; }
+.cb-howto-home__text.cb-leather { background-image: linear-gradient(rgba(77, 64, 58, .3), rgba(77, 64, 58, .3)), var(--cb-leather); background-size: auto, 900px; }
+
+/* Ofertas del mes and Estamos en San Juan: flat brown, as on the live page */
+.cb-offers { background: var(--cb-brown) !important; padding-top: 119px !important; padding-bottom: 110px !important; }
+.cb-offers .cb-wrap { max-width: 1230px; padding: 0 20px; box-sizing: content-box; }
+.cb-offers h2 { font-size: clamp(3rem, 4.4vw, 3.9375rem) !important; line-height: 1.1; }
+.cb-offers .cb-lead { font-size: 1rem; margin-top: 1.25rem !important; }
+.cb-offer-list { margin-top: 50px; gap: 20px; }
+.cb-offers__foot { justify-content: flex-end; margin-top: 40px !important; }
+.cb-contact { padding-top: 119px !important; padding-bottom: 110px !important; }
+.cb-contact__head { gap: 1.5rem; }
+.cb-contact h2 { font-size: clamp(2.75rem, 4.4vw, 3.9375rem) !important; line-height: 1.1; text-align: left; }
+.cb-contact__sub { margin: 1.25rem 0 0 !important; font-size: 1rem; color: var(--cb-cream); }
+.cb-contact__cta { margin: 0 !important; }
+.cb-contact__cta .wp-block-button__link { min-width: 292px; }
+.cb-contact > .cb-map { max-width: 1250px !important; margin-top: 20px !important; aspect-ratio: auto; height: 522px; min-height: 0; border-radius: 14px; }
+.cb-map iframe { filter: none; }
+.cb-address { margin-top: 20px !important; text-align: center; color: var(--cb-cream); font-size: 1rem; line-height: 1.6; }
+.cb-address p { margin: 0 0 .25rem; }
+.cb-address a { color: var(--cb-cream); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(228, 174, 92, .8); }
+
+/* footer */
+.cb-footer { background: #313131; padding: 30px 20px 34px; }
+.cb-footer .cb-logo img { width: 156px; height: auto; }
+.cb-footer__nav { gap: 0; }
+.cb-footer__nav a { color: #99978f; font-size: 1rem; padding: .75rem 20px; }
+.cb-footer__legal { font-size: .875rem; margin-top: 3.5rem !important; opacity: 1; }
+
+@media (max-width: 781px) {
+	.cb-header { width: calc(100% - 60px); padding: 20px 0; }
+	.cb-header .cb-logo { margin-left: 0; }
+	.cb-header .cb-logo img { width: 100px; }
+	.cb-burger { display: flex; }
+	html.cb-menu-open { overflow: hidden; }
+	.cb-header.is-open .cb-nav { display: flex; position: fixed; inset: 0; z-index: 30; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; background: var(--cb-brown); font-family: var(--wp--preset--font-family--display); font-size: 2.25rem; }
+	.cb-hero.cb-hero--home { padding: 151px 20px 30px !important; }
+	.cb-hero--home .cb-badges { order: -1; margin: 0 auto 80px !important; gap: 10px !important; max-width: 250px; }
+	.cb-hero--home .cb-badge { width: 120px; padding: .5rem; font-size: 1rem; }
+	.cb-hero--home .cb-hero__title { font-size: 3.125rem !important; max-width: 280px; }
+	.cb-hero--home .cb-hero__sub { max-width: 320px; }
+	.cb-hero--home .cb-social { gap: 2.5rem !important; }
+	.cb-services { padding-top: 55px !important; padding-bottom: 408px !important; }
+	.cb-services > h2 { font-size: 3.75rem !important; }
+	.cb-svc-grid { grid-template-columns: 1fr; gap: 20px; margin-top: 40px !important; }
+	.cb-svc--estetica-medica, .cb-chatcard { grid-column: auto; }
+	.cb-svc { min-height: 135px !important; }
+	.cb-svc--spa { min-height: 135px !important; }
+	.cb-chatcard { order: 1; min-height: 217px !important; }
+	.cb-svc__title, .cb-chatcard .cb-svc__title { font-size: 1.875rem !important; }
+	.cb-svc--corporales .wp-block-cover__image-background, .cb-svc--spa .wp-block-cover__image-background { object-position: 50% 50%; }
+	.cb-services > .cb-svc__model { width: 166px; max-width: none !important; top: auto; bottom: 0; left: 50% !important; transform: translateX(-50%); }
+	.cb-howto-home__text { padding: 67px 20px 60px; }
+	.cb-circles4 { display: grid; grid-template-columns: repeat(2, 130px); justify-content: center; gap: 11px 10px; margin: 60px 0 40px !important; }
+	.cb-circles4 .cb-circle { width: 130px; padding: .75rem; font-size: .8125rem; }
+	.cb-circles4 .cb-circle strong { font-size: 2.6rem; }
+	.cb-offers { padding-top: 94px !important; padding-bottom: 70px !important; }
+	.cb-offers h2 { font-size: 3rem !important; }
+	.cb-offers__foot { justify-content: center; }
+	.cb-contact { padding-top: 38px !important; padding-bottom: 60px !important; }
+	.cb-contact__head { flex-direction: column; align-items: stretch !important; text-align: center; }
+	.cb-contact h2 { font-size: 2.75rem !important; text-align: center; }
+	.cb-contact__cta { justify-content: center !important; }
+	.cb-contact__cta .wp-block-button, .cb-contact__cta .wp-block-button__link { width: 100%; min-width: 0; }
+	.cb-contact > .cb-map { height: 450px; }
+	.cb-footer__row { flex-direction: column; justify-content: center !important; }
+	.cb-footer__legal { font-size: .75rem; margin-top: 1.5rem !important; }
+	.cb-footer .cb-social.has-large-icon-size { font-size: 28px; }
+	.cb-hero--home .wp-block-cover__image-background { object-position: 68% 100% !important; }
+	.cb-howto-home__text h2 { max-width: 290px; margin-inline: auto !important; }
+	.cb-howto-home__text .cb-lead { max-width: 270px; margin-inline: auto !important; }
+	.cb-circles4 { margin: 32px 0 30px !important; }
+	.cb-howto-home__media { min-height: 210px; }
+	.cb-howto-home__img, .cb-howto-home__img img { object-position: 50% 58%; }
+	.cb-contact h2 { max-width: 260px; margin-inline: auto !important; }
+}
