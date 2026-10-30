@@ -197,7 +197,7 @@
 				}
 			}
 			// keep Tab inside the open menu: everything else on the page is inert while it is open
-			document.querySelectorAll( '.wp-site-blocks > :not(.cb-header-wrap), .cb-wa-fab' ).forEach( function ( el ) {
+			document.querySelectorAll( '.wp-site-blocks > :not(.cb-header-wrap), .cb-wa' ).forEach( function ( el ) {
 				if ( on ) {
 					el.setAttribute( 'inert', '' );
 				} else {
