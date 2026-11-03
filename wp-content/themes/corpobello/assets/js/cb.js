@@ -1,5 +1,5 @@
 /* CorpoBello: carousel arrows, the treatments category filter, the offers' last day, the price lists under the
-   service cards and the phone menu. Plain JS, deferred, no dependencies. */
+   service cards, the booking calendar dialog and the phone menu. Plain JS, deferred, no dependencies. */
 ( function () {
 	var arrow = function ( dir ) {
 		return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="' + ( dir < 0 ? 'M15.4 5.4 14 4l-8 8 8 8 1.4-1.4L8.8 12z' : 'M8.6 5.4 10 4l8 8-8 8-1.4-1.4 6.6-6.6z' ) + '"/></svg>';
@@ -176,6 +176,104 @@
 			if ( location.hash && ! touched && Math.abs( window.scrollY - y0 ) < 2 ) {
 				fromHash();
 			}
+		} );
+	}
+
+	/* Booking calendar in a dialog over the page (the client's yes, 3 Nov 2026). The "Agenda tu cita" buttons keep
+	   their real link (data-cb-book, functions.php), so without JS, or with a middle click or cmd-click, GoHighLevel
+	   opens in a new tab as before; a plain click opens the same calendar here. Nothing from GoHighLevel loads
+	   before that first click: the dialog, the frame and the message listener are all made on it. */
+	if ( document.querySelector( 'a[data-cb-book]' ) && window.HTMLDialogElement && window.URL ) {
+		var dlg, frame, opener, src, bookOrigin;
+		var lockScroll = function ( on ) {
+			var root = document.documentElement;
+			// keep the page from shifting sideways when its scrollbar disappears under the dialog
+			root.style.setProperty( '--cb-sbw', on ? ( window.innerWidth - root.clientWidth ) + 'px' : '0px' );
+			root.classList.toggle( 'cb-book-open', on );
+			// smooth wheel scrolling (motion.js) must not move the page behind the dialog
+			if ( window.cbLenis ) {
+				if ( on ) {
+					window.cbLenis.stop();
+				} else {
+					window.cbLenis.start();
+				}
+			}
+		};
+		var build = function () {
+			dlg = document.createElement( 'dialog' );
+			dlg.className = 'cb-book';
+			dlg.setAttribute( 'aria-labelledby', 'cb-book-title' );
+			dlg.setAttribute( 'aria-modal', 'true' );
+			dlg.innerHTML =
+				'<div class="cb-book__bar"><h2 class="cb-book__title" id="cb-book-title">Agenda tu cita</h2>' +
+				'<button type="button" class="cb-book__close" autofocus><span>Cerrar</span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M18.3 5.7 16.9 4.3 12 9.2 7.1 4.3 5.7 5.7 10.6 12l-4.9 4.9 1.4 1.4 4.9-4.9 4.9 4.9 1.4-1.4-4.9-4.9z"/></svg></button></div>' +
+				'<div class="cb-book__body"><div class="cb-book__wait" role="status"><span class="cb-book__spin" aria-hidden="true"></span>' +
+				'<span>Cargando el calendario…</span><a class="cb-book__alt" target="_blank" rel="noopener">¿No carga? Ábrelo en otra pestaña</a></div></div>';
+			frame = document.createElement( 'iframe' );
+			frame.className = 'cb-book__frame';
+			frame.title = 'Calendario para agendar tu cita en CorpoBello';
+			frame.addEventListener( 'load', function () {
+				dlg.classList.add( 'is-ready' );
+			} );
+			dlg.querySelector( '.cb-book__body' ).appendChild( frame );
+			dlg.querySelector( '.cb-book__close' ).addEventListener( 'click', function () {
+				dlg.close();
+			} );
+			// a click on the dimmed backdrop (the dialog box itself has no padding, so only the backdrop hits it)
+			dlg.addEventListener( 'click', function ( e ) {
+				if ( e.target === dlg ) {
+					dlg.close();
+				}
+			} );
+			// Esc fires cancel and then close; the frame stays loaded, so reopening keeps where the guest was
+			dlg.addEventListener( 'close', function () {
+				lockScroll( false );
+				if ( opener ) {
+					opener.focus( { preventScroll: true } );
+				}
+			} );
+			document.body.appendChild( dlg );
+			/* GoHighLevel's booking widget, once a booking is confirmed, posts
+			   ["msgsndr-booking-complete", { fingerprint, calendarId }] to the parent window with target "*"
+			   (read in its own bundle, 3 Nov 2026). Only that frame, from the calendar's own origin, counts, and
+			   only on the live site (window.cbTrack, set by functions.php when corpobello_tracking is on). */
+			window.addEventListener( 'message', function ( e ) {
+				var d = e.data;
+				if ( ! window.cbTrack || e.source !== frame.contentWindow || e.origin !== bookOrigin || ! Array.isArray( d ) || 'msgsndr-booking-complete' !== d[0] ) {
+					return;
+				}
+				if ( 'function' === typeof window.fbq ) {
+					window.fbq( 'track', 'Schedule' );
+				}
+				( window.dataLayer = window.dataLayer || [] ).push( { event: 'corpobello_booking_complete' } );
+			} );
+		};
+		var openBooking = function ( link ) {
+			if ( ! dlg ) {
+				build();
+			}
+			if ( src !== link.href ) {
+				src = link.href;
+				bookOrigin = new URL( src ).origin;
+				dlg.classList.remove( 'is-ready' );
+				dlg.querySelector( '.cb-book__alt' ).href = src;
+				frame.src = src;
+			}
+			opener = link;
+			lockScroll( true );
+			dlg.showModal();
+		};
+		document.querySelectorAll( 'a[data-cb-book]' ).forEach( function ( a ) {
+			a.setAttribute( 'aria-haspopup', 'dialog' );
+		} );
+		document.addEventListener( 'click', function ( e ) {
+			var link = e.target.closest && e.target.closest( 'a[data-cb-book]' );
+			// a new tab or window (middle click, cmd/ctrl/shift-click) goes to GoHighLevel as a normal link
+			if ( ! link || e.defaultPrevented || 0 !== e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey ) {
+				return;
+			}
+			e.preventDefault();
+			openBooking( link );
 		} );
 	}
 
